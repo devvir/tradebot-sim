@@ -1,0 +1,39 @@
+# Cold-storage sync exclusions for the PoC dataset.
+#
+# Copy to the sync root as `.megaignore`:
+#   cp scripts/megaignore.template "$POC_DIR/.megaignore"
+#
+# Format: <action><type><scope><strategy>:<pattern>
+#   action  - exclude, + include
+#   type    d directories, f files, s symlinks, a all (default)
+#   scope   p path from sync root, n subtree name (default), N root name only
+#   strategy G/g glob case-insensitive (default), R regexp case-sensitive, r regexp case-insensitive
+#
+# What is deliberately NOT versioned: anything already held elsewhere, anything
+# regenerable from what is versioned, and anything mid-write.
+
+# Staging copies of the exchange dailies. ~307 GB, already in cold storage, and
+# repopulated every time a new month is imported — syncing it would duplicate
+# the very thing being restored from.
+-dp:raw
+
+# Retired intermediates from the extract-then-convert pipeline (~300 GB of
+# per-year CSVs). Every row is in parquet/<table>/<year>.parquet already.
+-dn:legacy
+
+# Scratch: DuckDB spill files and NDJSON spools. Large, transient, meaningless.
+-dp:tmp
+-dn:.duckdb-tmp
+-dn:.spool
+
+# Local run logs — machine noise, not data.
+-dp:logs
+-f:*.log
+
+# In-flight writes. Every converter and importer writes `<file>.tmp` and renames
+# only after verifying row counts, so a sync running mid-job must never capture
+# a partial file and version it as though it were complete.
+-f:*.tmp
+
+# Superseded bookkeeping kept only for reference.
+-f:*.superseded
