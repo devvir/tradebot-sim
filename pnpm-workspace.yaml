@@ -1,0 +1,5 @@
+packages:
+  - core
+  - data
+  - server
+  - web

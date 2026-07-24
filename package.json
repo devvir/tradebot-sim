@@ -1,0 +1,19 @@
+{
+  "name": "tradebot-poc",
+  "version": "0.1.0",
+  "description": "Range-scalper simulation & exploration app. Standalone prototype.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "poc": "pnpm --filter @poc/data poc",
+    "serve": "pnpm --filter @poc/server serve",
+    "web": "pnpm --filter @poc/web dev",
+    "test": "vitest run",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.0.0"
+  }
+}
