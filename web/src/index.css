@@ -1,0 +1,34 @@
+/*
+ * Tailwind v4: one import, no config file, no PostCSS setup, no content globs.
+ * Preflight comes with it — which is what removes the browser's default 8px
+ * body margin that made the full-height layout scroll.
+ *
+ * Theme values and custom utilities belong in this file via `@theme`, not in a
+ * tailwind.config.js — that is the v3 way and does nothing here.
+ */
+@import 'tailwindcss';
+
+@theme {
+  --color-chrome: #12151a;
+  --color-canvas: #0d0d0d;
+  --color-hairline: #1c2027;
+  --color-up: #0a9b62;
+  --color-down: #d1453b;
+}
+
+/* The app is a fixed-height flex column; give it a root that can actually be 100%. */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/*
+ * The chart consumes horizontal wheel gestures for panning. Without this the
+ * browser treats a two-finger sideways swipe as back/forward navigation and
+ * leaves the page mid-interaction.
+ */
+html,
+body {
+  overscroll-behavior-x: none;
+}
